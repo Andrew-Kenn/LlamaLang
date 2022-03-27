@@ -27,6 +27,17 @@ type stmt =
     Expr of expr
 
 
+type program = stmt list
+
+
+
+
+
+
+
+
+
+(* start of printing operations *)
 let string_of_op = function
   | Add   -> "+"
   | Sub   -> "-"

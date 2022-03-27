@@ -57,11 +57,11 @@
 %left EXPON
 %nonassoc INCREMENT DECREMENT
 
-%start expr
-%type <Ast.expr> expr
+%start program
+%type <Ast.program> program
 
 %%
-file:
+program:
   statements EOF {$1}
 
 statements:
@@ -69,12 +69,14 @@ statements:
   | statement statements  { $1::$2 }
 
 statement:
-    compound_statement {}
-  | simple_statments {}
+    compound_statement { $1 }
+  | simple_statments   { $1 }
 
 simple_statments:
-    simple_statement SEMICOLON simple_statements NEWLINE {}
-  | simple_statement SEMICOLON simple_statements SEMICOLON NEWLINE {}
+    simple_statement NEWLINE { $1 }
+  | simple_statement SEMICOLON NEWLINE { $1 }
+  | simple_statement SEMICOLON simple_statements NEWLINE { (($1 :: fst $3), snd $3) }
+  | simple_statement SEMICOLON simple_statements SEMICOLON NEWLINE { (($1 :: fst $3), snd $3) }
 
 simple_statement:
     assignment {}

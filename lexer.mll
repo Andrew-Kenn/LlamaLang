@@ -32,13 +32,6 @@
     let _ = Stack.push 0 indentStack
 
     let tokenQueue = Queue.create()
-    let bracketsList =
-      ['[', ']';
-       '{', '}';
-       '(', ')' ]
-    let bracketTbl = create_hash 3 bracketsList
-    
-    let bracketStack = Stack.create ()
 
     let inBrackets = ref false
 
@@ -60,11 +53,6 @@
     
     let commentStart = ref 0
 
-    let balancedBracket currBracket =
-      if(Stack.is_empty bracketStack) then raise(Scanner_error("Mismatched Brackets"))
-      else 
-        if((compare (Stack.top bracketStack) currBracket) != 0) then raise(Scanner_error("Mismatched Brackets"))
-        else (ignore(Stack.pop bracketStack); true)
 
 }
 

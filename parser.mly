@@ -2,38 +2,55 @@
 
 /* Arithmetic operators  */
 %token PLUS MINUS TIMES DIVIDE MODULO EXPON FLOOR INCREMENT DECREMENT
+
 /* Assignment operators  */
 %token ASSIGN PLUSASSIGN MINUSASSIGN TIMESASSIGN DIVIDEASSIGN MODULOASSIGN FLOORASSIGN EXPONASSIGN 
+
 /* Logical    operators  */
 %token LAND LOR LNOT
+
 /* Comparison operators  */
 %token EQ NEQ GT LT GEQ LEQ
+
 /* Keywords logic        */
 %token AND OR NOT
+
 /* Keywords non-access   */
 %token CONST
+
 /* Keywords identity     */
 %token IS ISNOT
+
 /* Keywords membership   */
 %token IN NOTIN
+
 /* Keywords flow control */
 %token WHEN WHILE IF ELSE BREAK CONTINUE DO FOR THEN DEFAULT
+
 /* Keywords Object       */
 %token CLASS CONSTRUCTOR NEW SUPER EXTENDS IMPLEMENTS DOT INTERFACE THROWS THIS
+
 /* Keywords types        */
 %token BOOL FLOAT CHAR STRING INT NULL
+
 /* Keywords boolean lit  */
 %token TRUE FALSE
+
 /* Keywords imports      */
 %token IMPORT AS
+
 /* Keywords functions    */
 %token RETURN VOID
+
 /* Keywords exceptions   */
 %token TRY CATCH FINALLY THROW 
+
 /* Delimiter characters  */
 %token SEMICOLON COLON LCOMMENT RCOMMENT LPAREN RPAREN LBRACKET RBRACKET LBRACE RBRACE COMMA SINGLEQUOTE DOUBLEQUOTE BACKTICK
+
 /* Scoping DELIMITERS    */
 %token NEWLINE INDENT DEDENT 
+
 /* Terminal Tokens       */
 %token <int> INTLIT
 %token <float> FLOATLIT
@@ -62,15 +79,15 @@
 
 %%
 program:
-  statements EOF {$1}
+  statements EOF { $1 }
 
 statements:
-  /* nothing */ { [] }
+    /* nothing */         { []       }
   | statement statements  { $1 :: $2 }
 
 statement:
     compound_statement { $1 }
-  | simple_statments   { $1 }
+  | simple_statements   { $1 }
 
 simple_statements:
    /*nothing*/ { [] }
@@ -78,10 +95,10 @@ simple_statements:
   | simple_statement SEMICOLON simple_statements {  $1 :: $3 }
 
 simple_statement:
-    return_statement { $1 }
+    return_statement { Return($1) }
   | import_statement { $1 }
-  | expression_statement { $1 }
-  | throw_statement { $1 }
+  | expression_statement { Expr($1) }
+  | throw_statement { Throw($1) }
 
 compound_statement:
     function { $1 }
@@ -108,13 +125,13 @@ if_body:
 
 else_if_clauses:
     /* nothing */ { [] }
-    else_if_clause else_if_clauses { $1::$2 }
+  | else_if_clause else_if_clauses { $1::$2 }
 
 else_if_clause:
-    ELSE IF conditional COLON block { $2, $4 }
+    ELSE IF conditional COLON block { $3, $5 }
 
 else_clause:
-    | ELSE COLON block { $3 }
+    ELSE COLON block { $3 }
 
 for_statement:
     FOR id_decl IN expr COLON block { For_in( fst $2, snd $2, $4, $6 ) }
@@ -124,7 +141,7 @@ while_statement:
     WHILE expr COLON block { While($2, $4) }
  
 when_statement:
-    WHEN expr IS COLON NEWLINE when_body DEDENT { When($2, $4) }
+    WHEN expr IS COLON NEWLINE when_body DEDENT { When($2, $6) }
 
 when_body:
     case_block case_blocks default_block { $1::$2::[$3] }
@@ -180,7 +197,7 @@ typ:
 
 block:
     NEWLINE INDENT statements DEDENT { Block($3) }
-  | simple_statments { Simple_stmts($1) }
+  | simple_statements { Simple_stmts($1) }
 
 conditional:
       LPAREN expr RPAREN { $2 }

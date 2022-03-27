@@ -78,11 +78,11 @@ simple_statements:
   | simple_statement SEMICOLON simple_statements {  $1 :: $3 }
 
 simple_statement:
-    return_statement {$1}
-  | then_statement {$1}
-  | import_statement {$1}
-  | expression_statement {$1}
-  | throw_statement {$1}
+    return_statement { $1 }
+  | then_statement { $1 }
+  | import_statement { $1 }
+  | expression_statement { $1 }
+  | throw_statement { $1 }
 
 compound_statement:
     function {}

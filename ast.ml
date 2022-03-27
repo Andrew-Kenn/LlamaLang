@@ -23,6 +23,9 @@ type expr =
   | Assign of string * expr
   | Seq of expr * expr
 
+type stmt = 
+    Expr of expr
+
 
 let string_of_op = function
   | Add   -> "+"
@@ -66,14 +69,12 @@ let rec string_of_expr = function
   | Seq(e1, e2) -> (string_of_expr e1) ^ ";" ^ string_of_expr e2
 
 let rec string_of_stmt = function
-  Block(stmts) ->
-  "{\n" ^ String.concat "" (List.map string_of_stmt stmts) ^ "}\n"
-| Expr(expr) -> string_of_expr expr ^ ";\n"
-| Return(expr) -> "return " ^ string_of_expr expr ^ ";\n"
-| If(e, s1, s2) ->  "if (" ^ string_of_expr e ^ ")\n" ^
-                    string_of_stmt s1 ^ "else\n" ^ string_of_stmt s2
-| While(e, s) -> "while (" ^ string_of_expr e ^ ") " ^ string_of_stmt s
+  Expr(expr) -> string_of_expr expr ^ "\n"
 
 let string_of_typ = function
   Int -> "int"
 | Bool -> "bool"
+| Char -> "char"
+| String -> "string"
+| Float -> "float"
+| Void -> "void"

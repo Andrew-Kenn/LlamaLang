@@ -58,7 +58,7 @@
 %nonassoc INCREMENT DECREMENT
 
 %start expr
-%type <Ast.expr>
+%type <Ast.expr> expr
 
 %%
 
@@ -68,12 +68,12 @@ expr:
   | BOOLLIT    { BoolLit($1)   }
   | CHARLIT    { CharLit($1)   }
   | STRINGLIT  { StringLit($1) }
-  | Id         { Id($1)        }
+  | ID         { Id($1)        }
   | expr PLUS   expr   { Binop($1, Add,   $3)   }
   | expr MINUS  expr   { Binop($1, Sub,   $3)   }
   | expr EQ     expr   { Binop($1, Eq,    $3)   }
   | expr NEQ    expr   { Binop($1, Neq,   $3)   }
-  | expr LT     expr   { Binop($1, Less,  $3)   }
+  | expr LT     expr   { Binop($1, Lt,  $3)   }
   | expr AND    expr   { Binop($1, And,   $3)   }
   | expr OR     expr   { Binop($1, Or,    $3)   }
 

@@ -26,11 +26,11 @@ type expr =
 type compound_stmt = int
 
 type simple_stmt =
-  | Return_stmt of expr
-  | Then_stmt of expr
-  | Import_stmt of expr
-  | Expr_stmt of expr
-  | Throw_stmt of expr 
+  | Return of expr
+  | Then of expr
+  | Import of expr
+  | Expr of expr
+  | Throw of expr 
 
 type simple_stmts = simple_stmt list
 

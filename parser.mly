@@ -61,6 +61,117 @@
 %type <Ast.expr> expr
 
 %%
+file:
+  [statements] EOF {$1}
+
+statements:
+  statment* {}
+
+statement:
+    compound_statement {}
+  | simple_statments {}
+
+simple_statments:
+    simple_statment NEWLINE {}
+  | simple_statment SEMICOLON NEWLINE {}
+  | simple_statement SEMICOLON simple_statement+ NEWLINE {}
+  | simple_statement SEMICOLON simple_statement SEMICOLON NEWLINE {}
+
+simple_statement:
+    assignment {}
+  | return_statement {}
+  | then_statement {}
+  | import_statement {}
+  | expression statement {}
+
+compound_statement:
+    function {}
+  | class {}
+  | if_statement {}
+  | for_statement {}
+  | when_statement {}
+  | while_statement {}
+  | try_statement {}
+
+assignment:
+    ID ASSIGN expr {}
+  | ID PLUSASSIGN expr {}
+  | ID MINUSASSIGN expr {}
+  | ID TIMESASSIGN expr {}
+  | ID DIVIDEASSIGN expr {}
+  | ID MODULOASSIGN expr {}
+  | ID FLOORASSIGN expr {}
+  | ID EXPONASSIGN expr {}
+
+import_statement:
+    IMPORT ID {}
+  | IMPORT ID AS ID {}
+
+if_statement: 
+    IF expr COLON block else_if_statment{}
+  | IF expr COLON block else_clause {}
+
+else_if_statment:
+    ELSE IF expr COLON block else_if_statment {}
+  | ELSE IF expr COLON block else_clause {}
+
+else_clause:
+    ELSE COLON block {}
+
+for_statement:
+    FOR type_decl expr IN type_decl expr COLON block {}
+  | FOR args COLON block {}
+ 
+when_statement:
+    WHEN expr IS COLON NEWLINE INDENT case_block+ default_block DEDENT {}
+
+while_statement:
+    WHILE expr COLON block {}
+
+try_statement:
+    TRY COLON block finally_block {}
+  | TRY COLON block catch_block+ finally_block  {}
+
+then_statement:
+  THEN simple_statement
+
+case_block:
+    ID COLON NEWLINE INDENT then_statement DEDENT {}
+
+default_block:
+  DEFAULT COLON NEWLINE INDENT then_statement DEDENT {}
+
+catch_block:
+    CATCH expr COLON block {}
+
+finally_block:
+    FINALLY COLON block {}
+
+function:
+  id_decl ID
+
+formals_opt:
+  /*nothing*/ { [] }
+  | formals_list { $1 }
+
+formals_list:
+    id_decl { [$1] }
+  | id_decl COMMA formals_list { $1::$3 }
+
+id_decl:
+  typ ID { ($1, $2) }
+
+typ:
+    INT    { Int    }
+  | FLOAT  { Float  }
+  | BOOL   { Bool   }
+  | CHAR   { Char   }
+  | STRING { String } 
+  | VOID   { Void   }
+
+block:
+    NEWLINE INDENT statements DEDENT {}
+  | simple_statments {}
 
 expr:
     INTLIT     { IntLit($1)    }
@@ -77,3 +188,6 @@ expr:
   | expr AND    expr   { Binop($1, And,   $3)   }
   | expr OR     expr   { Binop($1, Or,    $3)   }
 
+args:
+  expr  { [$1] }
+  | expr COMMA args { $1::$3 }

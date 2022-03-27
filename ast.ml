@@ -24,7 +24,6 @@ type expr =
   | Seq of expr * expr
 
 
-
 type stmt = 
   | Simple_stmts of stmt list 
   | Return of expr
@@ -33,6 +32,8 @@ type stmt =
   | Expr of expr
   | Throw of expr
   | If_stmt of expr * stmt list  * ((stmt list) option)
+  | For_in of typ * expr * expr * stmt list
+  | For of expr list * stmt list
 
 type stmts = stmt list
 

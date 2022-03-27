@@ -115,11 +115,11 @@ else_if_clause:
     ELSE IF conditional COLON block { $2, $4 }
 
 else_clause:
-    | ELSE COLON block {  }
+    | ELSE COLON block { $3 }
 
 for_statement:
-    FOR type_decl expr IN type_decl expr COLON block {}
-  | FOR args COLON block {}
+    FOR id_decl IN ID COLON block { For_in( fst $2, snd $2, $4, $6 ) }
+  | FOR args COLON block { For($2, $4) }
  
 when_statement:
     WHEN expr IS COLON NEWLINE INDENT case_block+ default_block DEDENT {}
@@ -132,7 +132,7 @@ try_statement:
   | TRY COLON block catch_block+ finally_block  {}
 
 then_statement:
-  THEN simple_statement
+  THEN simple_statement {}
 
 case_block:
     ID COLON NEWLINE INDENT then_statement DEDENT {}

@@ -185,7 +185,13 @@ expr:
   | expr LT     expr     { Binop($1, Lt,  $3)       }
   | expr AND    expr     { Binop($1, And,   $3)     }
   | expr OR     expr     { Binop($1, Or,    $3)     }
-  | expr PLUSASSIGN expr {Assign($1, Binop($1, $3)) }
+  | expr PLUSASSIGN expr {Assign($1, Binop($1, Add, $3)) }
+  | expr MINUSASSIGN expr {Assign($1, Binop($1, Sub, $3)) }
+  | expr TIMESASSIGN expr {Assign($1, Binop($1, Mult, $3)) }
+  | expr DIVIDEASSIGN expr {Assign($1, Binop($1, Div, $3)) }
+  | expr MODULOASSIGN expr {Assign($1, Binop($1, Mod, $3)) }
+  | expr FLOORASSIGN expr {Assign($1, Binop($1, Floor, $3)) }
+  | expr EXPONASSIGN expr {Assign($1, Binop($1, Exp, $3)) }
 
 args:
   expr  { [$1] }

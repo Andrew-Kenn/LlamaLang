@@ -24,9 +24,10 @@ type expr =
   | Call of string * expr list
   | Assign of string * expr
 
+
 type stmt = 
   | Block of stmt list
-  | Simple_stmts of stmt
+  | Simple_stmts of stmt list
   | Return of expr
   | Import of string
   | Expr of expr
@@ -40,9 +41,8 @@ type stmt =
   | Default of stmt
   | Try of stmt * stmt * ((stmt) option)
   | Func of typ * expr * expr option * stmt
-  | []
 
-type program = stmt
+type program = stmt list
 
 
 

@@ -72,10 +72,8 @@ statement:
   | simple_statments {}
 
 simple_statments:
-    simple_statment NEWLINE {}
-  | simple_statment SEMICOLON NEWLINE {}
-  | simple_statement SEMICOLON simple_statement+ NEWLINE {}
-  | simple_statement SEMICOLON simple_statement SEMICOLON NEWLINE {}
+    simple_statement SEMICOLON simple_statement* NEWLINE {}
+  | simple_statement SEMICOLON simple_statement* SEMICOLON NEWLINE {}
 
 simple_statement:
     assignment {}

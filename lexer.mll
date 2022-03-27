@@ -26,7 +26,6 @@
        "false", FALSE;         "import", IMPORT;           "as", AS ]
 
     let symbol_tbl = create_hash 48 keywords
-    let id_tbl = Hashtbl.create 0
     
     let indentStack = Stack.create()
 
@@ -38,6 +37,7 @@
        '{', '}';
        '(', ')' ]
     let bracketTbl = create_hash 3 bracketsList
+    
     let bracketStack = Stack.create ()
 
     let inBrackets = ref false
@@ -147,94 +147,6 @@ and comment = parse
       else token lexbuf in
         match parsed_token with
         | NEWLINE      -> print_string "NEWLINE \n"   ; tokenize lexbuf
-        | DEDENT       -> print_string "DEDENT "      ; tokenize lexbuf
-        | INDENT       -> print_string "INDENT "      ; tokenize lexbuf
-        | PLUS         -> print_string "PLUS "        ; tokenize lexbuf   
-        | MINUS        -> print_string "MINUS "       ; tokenize lexbuf   
-        | TIMES        -> print_string "TIMES "       ; tokenize lexbuf   
-        | DIVIDE       -> print_string "DIVIDE "      ; tokenize lexbuf   
-        | MODULO       -> print_string "MODULO "      ; tokenize lexbuf   
-        | EXPON        -> print_string "EXPON "       ; tokenize lexbuf   
-        | FLOOR        -> print_string "FLOOR "       ; tokenize lexbuf   
-        | INCREMENT    -> print_string "INCREMENT "   ; tokenize lexbuf   
-        | DECREMENT    -> print_string "DECREMENT "   ; tokenize lexbuf   
-        | ASSIGN       -> print_string "ASSIGN "      ; tokenize lexbuf   
-        | PLUSASSIGN   -> print_string "PLUSASSIGN "  ; tokenize lexbuf   
-        | MINUSASSIGN  -> print_string "MINUSASSIGN " ; tokenize lexbuf   
-        | TIMESASSIGN  -> print_string "TIMESASSIGN " ; tokenize lexbuf   
-        | DIVIDEASSIGN -> print_string "DIVIDEASSIGN "; tokenize lexbuf   
-        | MODULOASSIGN -> print_string "MODULOASSIGN "; tokenize lexbuf   
-        | FLOORASSIGN  -> print_string "FLOORASSIGN " ; tokenize lexbuf   
-        | EXPONASSIGN  -> print_string "EXPONASSIGN " ; tokenize lexbuf   
-        | LAND         -> print_string "LAND "        ; tokenize lexbuf   
-        | LOR          -> print_string "LOR "         ; tokenize lexbuf   
-        | LNOT         -> print_string "LNOT "        ; tokenize lexbuf   
-        | EQ           -> print_string "EQ "          ; tokenize lexbuf   
-        | NEQ          -> print_string "NEQ "         ; tokenize lexbuf   
-        | GT           -> print_string "GT "          ; tokenize lexbuf   
-        | LT           -> print_string "LT "          ; tokenize lexbuf   
-        | DOT          -> print_string "DOT "         ; tokenize lexbuf   
-        | SEMICOLON    -> print_string "SEMICOLON "   ; tokenize lexbuf   
-        | COLON        -> print_string "COLON "       ; tokenize lexbuf   
-        | LPAREN       -> print_string "LPAREN "      ; tokenize lexbuf   
-        | RPAREN       -> print_string "RPAREN "      ; tokenize lexbuf   
-        | LBRACKET     -> print_string "LBRACKET "    ; tokenize lexbuf   
-        | RBRACKET     -> print_string "RBRACKET "    ; tokenize lexbuf   
-        | LBRACE       -> print_string "LBRACE "      ; tokenize lexbuf   
-        | RBRACE       -> print_string "RBRACE "      ; tokenize lexbuf   
-        | COMMA        -> print_string "COMMA "       ; tokenize lexbuf   
-        | SINGLEQUOTE  -> print_string "SINGLEQUOTE " ; tokenize lexbuf   
-        | DOUBLEQUOTE  -> print_string "DOUBLEQUOTE " ; tokenize lexbuf   
-        | BACKTICK     -> print_string "BACKTICK "    ; tokenize lexbuf
-        | AND          -> print_string "AND "         ; tokenize lexbuf
-        | OR           -> print_string "OR "    ; tokenize lexbuf
-        | NOT          -> print_string "NOT "    ; tokenize lexbuf
-        | CONST        -> print_string "CONST "    ; tokenize lexbuf
-        | FINAL        -> print_string "FINAL "    ; tokenize lexbuf
-        | IS           -> print_string "IS "    ; tokenize lexbuf
-        | ISNOT        -> print_string "ISNOT "    ; tokenize lexbuf
-        | IN           -> print_string "IN "    ; tokenize lexbuf
-        | NOTIN        -> print_string "NOTIN "; tokenize lexbuf
-        | WHEN         -> print_string "WHEN "; tokenize lexbuf
-        | WHILE        -> print_string "WHILE "; tokenize lexbuf
-        | IF           -> print_string "IF "; tokenize lexbuf
-        | ELSE         -> print_string "ELSE "; tokenize lexbuf
-        | BREAK        -> print_string "BREAK "; tokenize lexbuf
-        | CONTINUE     -> print_string "CONTINUE "; tokenize lexbuf
-        | DO           -> print_string "DO "; tokenize lexbuf
-        | FOR          -> print_string "FOR "; tokenize lexbuf
-        | THEN         -> print_string "THEN "; tokenize lexbuf
-        | SWITCH       -> print_string "SWITCH "; tokenize lexbuf
-        | CASE         -> print_string "CASE "; tokenize lexbuf
-        | DEFAULT      -> print_string "DEFAULT "; tokenize lexbuf
-        | CLASS        -> print_string "CLASS "; tokenize lexbuf
-        | CONSTRUCTOR  -> print_string "CONSTRUCTOR "; tokenize lexbuf
-        | NEW          -> print_string "NEW "; tokenize lexbuf
-        | SUPER        -> print_string "SUPER "; tokenize lexbuf
-        | EXTENDS      -> print_string "IN "; tokenize lexbuf
-        | IMPLEMENTS   -> print_string "IMPLEMENTS "; tokenize lexbuf
-        | DOT          -> print_string "DOT "; tokenize lexbuf
-        | INTERFACE    -> print_string "INTERFACE "; tokenize lexbuf
-        | THROWS       -> print_string "THROWS "; tokenize lexbuf
-        | RAISES       -> print_string "RAISES "; tokenize lexbuf
-        | THIS         -> print_string "THIS "; tokenize lexbuf
-        | BOOL         -> print_string "BOOL "; tokenize lexbuf
-        | INT          -> print_string "INT "; tokenize lexbuf
-        | FLOAT        -> print_string "FLOAT "; tokenize lexbuf
-        | CHAR         -> print_string "CHAR "; tokenize lexbuf
-        | STRING       -> print_string "STRING "; tokenize lexbuf
-        | NULL         -> print_string "NULL "; tokenize lexbuf
-        | TRUE         -> print_string "TRUE "; tokenize lexbuf
-        | FALSE        -> print_string "FALSE "; tokenize lexbuf
-        | IMPORT       -> print_string "IMPORT "; tokenize lexbuf
-        | AS           -> print_string "AS "; tokenize lexbuf
-        | RETURN       -> print_string "RETURN "; tokenize lexbuf
-        | VOID         -> print_string "VOID "; tokenize lexbuf
-        | TRY          -> print_string "TRY "; tokenize lexbuf
-        | CATCH        -> print_string "CATCH "; tokenize lexbuf
-        | FINALLY      -> print_string "FINALLY "; tokenize lexbuf
-        | THROW        -> print_string "THROW "; tokenize lexbuf
-        | RAISE        -> print_string "RAISE "; tokenize lexbuf
         | EOF          -> print_string "EOF " ; parsed_token;
         | _            -> tokenize lexbuf;
   in

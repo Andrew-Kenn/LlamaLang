@@ -152,7 +152,7 @@ when_statement:
     WHEN expr IS COLON NEWLINE when_body DEDENT { When($2, $6) }
 
 when_body:
-    case_statement case_statements default_block { $1::$2::[$3] }
+    case_statement case_statements default_statement { $1::$2::[$3] }
 
 case_statements:
       /* nothing */ { [] } 

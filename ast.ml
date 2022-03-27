@@ -11,6 +11,8 @@ type typ =
 
 type bind = typ * string
 
+type holder = Var
+
 type expr =
   | IntLit of int
   | FloatLit of float

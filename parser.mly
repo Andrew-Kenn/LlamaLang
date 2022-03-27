@@ -66,17 +66,16 @@ program:
 
 statements:
   /* nothing */ { [] }
-  | statement statements  { $1::$2 }
+  | statement statements  { $1 :: $2 }
 
 statement:
     compound_statement { $1 }
   | simple_statments   { $1 }
 
 simple_statments:
-    simple_statement NEWLINE { $1 }
-  | simple_statement SEMICOLON NEWLINE { $1 }
-  | simple_statement SEMICOLON simple_statements NEWLINE { (($1 :: fst $3), snd $3) }
-  | simple_statement SEMICOLON simple_statements SEMICOLON NEWLINE { (($1 :: fst $3), snd $3) }
+   /*nothing*/ { [] }
+  | simple_statement NEWLINE { $1 }
+  | simple_statement SEMICOLON simple_statements {  $1 :: $3 }
 
 simple_statement:
     assignment {}

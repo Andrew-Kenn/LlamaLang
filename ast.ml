@@ -1,13 +1,13 @@
 type op =
   | Add  | Sub   | Mul  | Div  | Flr   | Exp
   | Inc  | Dec   | Mod
-  | Ass  | Eq    | Neq  | Lt   | Gt   | Geq   | Leq
+  | Eq    | Neq  | Lt   | Gt   | Geq   | Leq
   | LAnd | LOr   | LNot 
   | And  | Or    | Not  | Is   | IsNot 
   | In   | NotIn 
 
 type typ =
-  | Char | String |Bool | Int | Float | Void
+  | Char | String | Bool | Int | Float | Void
 
 type bind = typ * string
 
@@ -34,7 +34,6 @@ let string_of_op = function
   | Inc   -> "++"
   | Dec   -> "--"
   | Mod   -> "%"
-  | Ass   -> "="
   | Eq    -> "=="
   | Neq   -> "!="
   | Gt    -> ">"

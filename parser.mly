@@ -57,8 +57,8 @@
 %left EXPON
 %nonassoc INCREMENT DECREMENT
 
-%start program
-%type <Ast.program>
+%start expr
+%type <Ast.expr>
 
 %%
 

@@ -85,28 +85,35 @@ simple_statement:
   | throw_statement { $1 }
 
 compound_statement:
-    function {$1}
-  | class {$1}
-  | if_statement {$1}
-  | for_statement {$1}
-  | when_statement {$1}
-  | while_statement {%1}
-  | try_statement {%1}
+    function { $1 }
+  | class { $1 }
+  | if_statement { $1 }
+  | for_statement { $1 }
+  | when_statement { $1 }
+  | while_statement { $1 }
+  | try_statement { $1 }
 
 import_statement:
-    IMPORT ID {}
-  | IMPORT ID AS ID {}
+    IMPORT ID { Import($2) }
+  | IMPORT ID AS ID { Assign($2, Import($4)) }
 
-if_statement: 
-    IF expr COLON block else_if_statment{}
-  | IF expr COLON block else_clause {}
+if_statement:
+      if_clause { $1 }
+    | if_clause else_clause { $1, $2 }
+    | if_clause else_if_clauses else_clause { $1, $2, $3}
 
-else_if_statment:
-    ELSE IF expr COLON block else_if_statment {}
-  | ELSE IF expr COLON block else_clause {}
+if_clause: 
+    IF conditional COLON block { $2, $4 }
+
+else_if_clause:
+    ELSE IF conditional COLON block { $2, $4 }
+
+else_if_clauses:
+    /* nothing */ { [] }
+    else_if_clause else_if_clauses { $1::$2 }
 
 else_clause:
-    ELSE COLON block {}
+    | ELSE COLON block {  }
 
 for_statement:
     FOR type_decl expr IN type_decl expr COLON block {}
@@ -162,6 +169,10 @@ typ:
 block:
     NEWLINE INDENT statements DEDENT {}
   | simple_statments {}
+
+conditional:
+      LPAREN expr RPAREN { $2 }
+    | expr { $1 }
 
 expr:
     INTLIT     { IntLit($1)    }

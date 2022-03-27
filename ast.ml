@@ -28,7 +28,7 @@ type compound_stmt = int
 type simple_stmt =
   | Return of expr
   | Then of expr
-  | Import of expr
+  | Import of string
   | Expr of expr
   | Throw of expr 
 

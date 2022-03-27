@@ -95,10 +95,10 @@ simple_statements:
   | simple_statement SEMICOLON simple_statements {  $1 :: $3 }
 
 simple_statement:
-    return_statement { Return($1) }
+    return_statement { $1 }
   | import_statement { $1 }
-  | expression_statement { Expr($1) }
-  | throw_statement { Throw($1) }
+  | expression_statement { $1 }
+  | throw_statement { $1 }
 
 compound_statement:
     function { $1 }
@@ -108,6 +108,15 @@ compound_statement:
   | when_statement { $1 }
   | while_statement { $1 }
   | try_statement { $1 }
+
+return_statement:
+  RETURN expr { Return($2) }
+
+throw_statement:
+  THROW expr { Throw($2) }
+
+expression_statement:
+  expr { Expr($1) }
 
 import_statement:
     IMPORT expr { Import($2) }

@@ -94,8 +94,8 @@ compound_statement:
   | try_statement { $1 }
 
 import_statement:
-    IMPORT ID { Import($2) }
-  | IMPORT ID AS ID { Assign($2, Import($4)) }
+    IMPORT expr { Import($2) }
+  | IMPORT expr AS expr { Assign($2, Import($4)) }
 
 if_statement:
       if_clause { If_stmt($1, [])}
@@ -118,27 +118,34 @@ else_clause:
     | ELSE COLON block { $3 }
 
 for_statement:
-    FOR id_decl IN ID COLON block { For_in( fst $2, snd $2, $4, $6 ) }
+    FOR id_decl IN expr COLON block { For_in( fst $2, snd $2, $4, $6 ) }
   | FOR args COLON block { For($2, $4) }
  
 when_statement:
-    WHEN expr IS COLON NEWLINE INDENT case_block+ default_block DEDENT {}
+    WHEN expr IS COLON NEWLINE when_body DEDENT { When($2, $4) }
 
 while_statement:
-    WHILE expr COLON block {}
+    WHILE expr COLON block { While($2, $4) }
 
 try_statement:
     TRY COLON block finally_block {}
   | TRY COLON block catch_block+ finally_block  {}
 
 then_statement:
-  THEN simple_statement {}
+    THEN simple_statement {}
+
+when_body:
+    case_block case_blocks default_block { $1::$2::[$3] }
+
+case_blocks:
+      /* nothing */ { [] } 
+    | case_block case_blocks { $1::$2 }
 
 case_block:
-    ID COLON NEWLINE INDENT then_statement DEDENT {}
+    INDENT expr COLON NEWLINE INDENT then_statement DEDENT {}
 
 default_block:
-  DEFAULT COLON NEWLINE INDENT then_statement DEDENT {}
+    INDENT DEFAULT COLON NEWLINE INDENT then_statement DEDENT {}
 
 catch_block:
     CATCH expr COLON block {}
@@ -158,7 +165,7 @@ formals_list:
   | id_decl COMMA formals_list { $1::$3 }
 
 id_decl:
-  typ ID { ($1, $2) }
+  typ expr { ($1, $2) }
 
 typ:
     INT    { Int    }

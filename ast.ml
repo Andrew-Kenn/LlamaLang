@@ -25,20 +25,22 @@ type expr =
 
 
 type stmt = 
-  | Simple_stmts of stmt list 
+  | Block of stmt list
+  | Simple_stmts of stmt
   | Return of expr
   | Then of expr
   | Import of string
   | Expr of expr
   | Throw of expr
-  | If_stmt of expr * stmt list  * ((stmt list) option)
-  | For_in of typ * expr * expr * stmt list
-  | For of expr list * stmt list
+  | If_stmt of expr * stmt  * ((stmt) option)
+  | For_in of typ * expr * expr * stmt
+  | For of expr list * stmt
+  | When of expr * stmt
+  | While of expr list * stmt
 
-type stmts = stmt list
 
 
-type program = stmts
+type program = stmt
 
 
 

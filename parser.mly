@@ -102,7 +102,6 @@ simple_statement:
 
 compound_statement:
     function { $1 }
-  | class { $1 }
   | if_statement { $1 }
   | for_statement { $1 }
   | when_statement { $1 }
@@ -153,11 +152,11 @@ when_statement:
     WHEN expr IS COLON NEWLINE when_body DEDENT { When($2, $6) }
 
 when_body:
-    case_block case_blocks default_block { $1::$2::[$3] }
+    case_statement case_statements default_block { $1::$2::[$3] }
 
-case_blocks:
+case_statements:
       /* nothing */ { [] } 
-    | case_block case_blocks { $1::$2 }
+    | case_statement case_statements { $1::$2 }
 
 case_statement:
     INDENT expr COLON NEWLINE INDENT block DEDENT { Case($2, $6) }

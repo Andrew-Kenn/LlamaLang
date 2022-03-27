@@ -24,29 +24,18 @@ type expr =
   | Seq of expr * expr
 
 
-type compound_stmt =
-  | If_stmt of if_stmt * else_if_stmt list * else_stmt
 
-type simple_stmt =
+type stmt = 
+  | Simple_stmts of stmt list 
   | Return of expr
   | Then of expr
   | Import of string
   | Expr of expr
-  | Throw of expr 
-
-type simple_stmts = simple_stmt list
-
-type stmt = 
-  | Simple_stmts of simple_stmts
-  | Compound_stmt of compound_stmt
-
+  | Throw of expr
+  | If_stmt of expr * stmt list  * ((stmt list) option)
 
 type stmts = stmt list
 
-type if_stmt = {
-  cond: expr;
-  body: stmts;
-}
 
 type program = stmts
 

@@ -98,18 +98,21 @@ import_statement:
   | IMPORT ID AS ID { Assign($2, Import($4)) }
 
 if_statement:
-      if_clause { $1 }
-    | if_clause else_if_clauses else_clause { if($1, $2, $3)}
+      if_clause { If_stmt($1, [])}
+    | if_clause if_body { If_stmt($1, $2)}
 
 if_clause: 
     IF conditional COLON block { $2, $4 }
 
-else_if_clause:
-    ELSE IF conditional COLON block { $2, $4 }
+if_body:
+   else_if_clauses else_clause { $1::[$2]}
 
 else_if_clauses:
     /* nothing */ { [] }
     else_if_clause else_if_clauses { $1::$2 }
+
+else_if_clause:
+    ELSE IF conditional COLON block { $2, $4 }
 
 else_clause:
     | ELSE COLON block {  }

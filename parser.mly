@@ -157,15 +157,15 @@ finally_block:
     FINALLY COLON block { $3 }
 
 function:
-  id_decl ID
+  id_decl LPAREN params_opt RPAREN COLON block { Func(fst $1, snd $1, $3, $6) }
 
-formals_opt:
+params_opt:
   /*nothing*/ { [] }
-  | formals_list { $1 }
+  | params_list { $1 }
 
-formals_list:
+params_list:
     id_decl { [$1] }
-  | id_decl COMMA formals_list { $1::$3 }
+  | id_decl COMMA params_list { $1::$3 }
 
 id_decl:
   typ expr { ($1, $2) }
@@ -179,8 +179,8 @@ typ:
   | VOID   { Void   }
 
 block:
-    NEWLINE INDENT statements DEDENT {}
-  | simple_statments {}
+    NEWLINE INDENT statements DEDENT { Block($3) }
+  | simple_statments { Simple_stmts($1) }
 
 conditional:
       LPAREN expr RPAREN { $2 }

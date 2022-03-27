@@ -21,8 +21,6 @@ type expr =
   | Binop of expr * op * expr
   | Call of string * expr list
   | Assign of string * expr
-  | Seq of expr * expr
-
 
 type stmt = 
   | Block of stmt list
@@ -39,7 +37,7 @@ type stmt =
   | Case of expr * stmt
   | Default of stmt
   | Try of stmt * stmt * ((stmt) option)
-
+  | Func of typ * expr * expr option * stmt
 
 
 type program = stmt
@@ -92,7 +90,6 @@ let rec string_of_expr = function
     string_of_expr e1 ^ " " ^ string_of_op o ^ " " ^ string_of_expr e2
   | Assign(v, e) -> v ^ " = " ^ string_of_expr e
   | Call(f, el) -> f ^ "(" ^ String.concat ", " (List.map string_of_expr el) ^ ")"
-  | Seq(e1, e2) -> (string_of_expr e1) ^ ";" ^ string_of_expr e2
 
 let rec string_of_stmt = function
   Expr(expr) -> string_of_expr expr ^ "\n"

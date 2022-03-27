@@ -85,7 +85,7 @@ program:
 
 statements:
     /* nothing */         { []       }
-  | statement statements  { $1 :: $2 }
+  | statement statements  { $1::$2 }
 
 statement:
     compound_statement { $1 }
@@ -103,7 +103,7 @@ simple_statement:
   | throw_statement { $1 }
 
 compound_statement:
-    function { $1 }
+    func { $1 }
   | if_statement { $1 }
   | for_statement { $1 }
   | when_statement { $1 }
@@ -183,7 +183,7 @@ catch_block:
 finally_block:
     FINALLY COLON block { $3 }
 
-function:
+func:
   id_decl LPAREN params_opt RPAREN COLON block { Func(fst $1, snd $1, $3, $6) }
 
 params_opt:

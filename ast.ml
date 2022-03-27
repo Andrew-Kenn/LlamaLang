@@ -40,7 +40,7 @@ type stmt =
   | Default of stmt
   | Try of stmt * stmt * ((stmt) option)
   | Func of typ * expr * expr option * stmt
-
+  | []
 
 type program = stmt
 

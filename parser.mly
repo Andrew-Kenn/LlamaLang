@@ -62,18 +62,19 @@
 
 %%
 file:
-  [statements] EOF {$1}
+  statements EOF {$1}
 
 statements:
-  statement* {}
+  /* nothing */ { [] }
+  | statement statements  { $1::$2 }
 
 statement:
     compound_statement {}
   | simple_statments {}
 
 simple_statments:
-    simple_statement SEMICOLON simple_statement* NEWLINE {}
-  | simple_statement SEMICOLON simple_statement* SEMICOLON NEWLINE {}
+    simple_statement SEMICOLON simple_statements NEWLINE {}
+  | simple_statement SEMICOLON simple_statements SEMICOLON NEWLINE {}
 
 simple_statement:
     assignment {}

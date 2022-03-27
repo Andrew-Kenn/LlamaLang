@@ -19,8 +19,8 @@
        "class", CLASS;         "constructor", CONSTRUCTOR; "new", NEW;
        "super", SUPER;         "extends", EXTENDS;         "implements", IMPLEMENTS;
        "this", THIS;           "interface", INTERFACE;     "throws", THROWS;
-       "raises", RAISES;       "try", TRY;                 "catch", CATCH;
-       "finally", FINALLY;     "throw", THROW;             "raise", RAISE;
+       "try", TRY;             "catch", CATCH;
+       "finally", FINALLY;     "throw", THROW;             
        "return", RETURN;       "void", VOID;               "bool", BOOL;
        "int", INT;             "float", FLOAT;             "char", CHAR;
        "string", STRING;       "null", NULL;               "true", TRUE;

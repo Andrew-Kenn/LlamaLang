@@ -19,7 +19,7 @@
 /* Keywords flow control */
 %token WHEN WHILE IF ELSE BREAK CONTINUE DO FOR THEN DEFAULT
 /* Keywords Object       */
-%token CLASS CONSTRUCTOR NEW SUPER EXTENDS IMPLEMENTS DOT INTERFACE THROWS RAISES THIS
+%token CLASS CONSTRUCTOR NEW SUPER EXTENDS IMPLEMENTS DOT INTERFACE THROWS THIS
 /* Keywords types        */
 %token BOOL FLOAT CHAR STRING INT NULL
 /* Keywords boolean lit  */
@@ -29,7 +29,7 @@
 /* Keywords functions    */
 %token RETURN VOID
 /* Keywords exceptions   */
-%token TRY CATCH FINALLY THROW RAISE
+%token TRY CATCH FINALLY THROW 
 /* Delimiter characters  */
 %token SEMICOLON COLON LCOMMENT RCOMMENT LPAREN RPAREN LBRACKET RBRACKET LBRACE RBRACE COMMA SINGLEQUOTE DOUBLEQUOTE BACKTICK
 /* Scoping DELIMITERS    */
@@ -72,17 +72,17 @@ statement:
     compound_statement { $1 }
   | simple_statments   { $1 }
 
-simple_statments:
+simple_statements:
    /*nothing*/ { [] }
   | simple_statement NEWLINE { $1 }
   | simple_statement SEMICOLON simple_statements {  $1 :: $3 }
 
 simple_statement:
-    assignment {}
-  | return_statement {}
-  | then_statement {}
-  | import_statement {}
-  | expression statement {}
+    return_statement {$1}
+  | then_statement {$1}
+  | import_statement {$1}
+  | expression_statement {$1}
+  | throw_statement {$1}
 
 compound_statement:
     function {}
@@ -93,15 +93,6 @@ compound_statement:
   | while_statement {}
   | try_statement {}
 
-assignment:
-    ID ASSIGN expr {}
-  | ID PLUSASSIGN expr {}
-  | ID MINUSASSIGN expr {}
-  | ID TIMESASSIGN expr {}
-  | ID DIVIDEASSIGN expr {}
-  | ID MODULOASSIGN expr {}
-  | ID FLOORASSIGN expr {}
-  | ID EXPONASSIGN expr {}
 
 import_statement:
     IMPORT ID {}

@@ -99,5 +99,5 @@ let rec string_of_expr = function
   | Assign(v, e) -> v ^ " = " ^ string_of_expr e
   | Call(f, el) -> f ^ "(" ^ String.concat ", " (List.map string_of_expr el) ^ ")"
 
-let rec string_of_stmt = function
-  Expr(expr) -> string_of_expr expr ^ "\n"
+(* let rec string_of_stmt = function
+  Expr(expr) -> string_of_expr expr ^ "\n" *)

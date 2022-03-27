@@ -76,6 +76,8 @@
 
 %start program
 %type <Ast.program> program
+%type <Ast.holder> holder
+
 
 %%
 program:
@@ -152,7 +154,7 @@ when_statement:
     WHEN expr IS COLON NEWLINE when_body DEDENT { When($2, $6) }
 
 when_body:
-    case_statement case_statements default_block { $1::$2::[$3] }
+    case_statement case_statements default_statement { $1::$2::[$3] }
 
 case_statements:
       /* nothing */ { [] } 
@@ -218,6 +220,8 @@ expr:
   | CHARLIT    { CharLit($1)   }
   | STRINGLIT  { StringLit($1) }
   | ID         { Id($1)        }
+  | TRUE       { BoolLit(true) }
+  | FALSE      { BoolLit(false)}
   | expr PLUS   expr     { Binop($1, Add,   $3)     }
   | expr MINUS  expr     { Binop($1, Sub,   $3)     }
   | expr EQ     expr     { Binop($1, Eq,    $3)     }
@@ -236,3 +240,16 @@ expr:
 args:
   expr  { [$1] }
   | expr COMMA args { $1::$3 }
+
+holder:
+   ISNOT {Var }
+  |CONSTRUCTOR {Var}
+  |CLASS {Var}
+  |SUPER {Var }
+  | NEW {Var }
+  | EXTENDS {Var }
+  | IMPLEMENTS {Var }
+  | INTERFACE {Var }
+  | NOTIN {Var }
+  | DOT {Var }
+  | NULL {Var }

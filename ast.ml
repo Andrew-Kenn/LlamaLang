@@ -26,7 +26,7 @@ type expr =
 type stmt = 
     Expr of expr
 
-
+(* print functions *)
 let string_of_op = function
   | Add   -> "+"
   | Sub   -> "-"

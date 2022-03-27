@@ -119,17 +119,12 @@ else_clause:
 for_statement:
     FOR id_decl IN expr COLON block { For_in( fst $2, snd $2, $4, $6 ) }
   | FOR args COLON block { For($2, $4) }
- 
-when_statement:
-    WHEN expr IS COLON NEWLINE when_body DEDENT { When($2, $4) }
 
 while_statement:
     WHILE expr COLON block { While($2, $4) }
-
-try_statement:
-    TRY COLON block finally_block {}
-  | TRY COLON block catch_block+ finally_block  {}
-
+ 
+when_statement:
+    WHEN expr IS COLON NEWLINE when_body DEDENT { When($2, $4) }
 
 when_body:
     case_block case_blocks default_block { $1::$2::[$3] }
@@ -138,17 +133,28 @@ case_blocks:
       /* nothing */ { [] } 
     | case_block case_blocks { $1::$2 }
 
-case_block:
-    INDENT expr COLON NEWLINE INDENT then_statement DEDENT {}
+case_statement:
+    INDENT expr COLON NEWLINE INDENT block DEDENT { Case($2, $6) }
 
-default_block:
-    INDENT DEFAULT COLON NEWLINE INDENT then_statement DEDENT {}
+default_statement:
+    INDENT DEFAULT COLON NEWLINE INDENT block DEDENT { Default($6) }
+
+try_statement:
+    TRY COLON block try_body { Try($3, $4, []) }
+    | TRY COLON block try_body finally_block { Try($3, $4, $5) }
+
+try_body:
+    catch_block catch_blocks { $1::$2 }
+
+catch_blocks:
+      /* nothing */ { [] } 
+    | catch_block catch_blocks { $1::$2 }
 
 catch_block:
-    CATCH expr COLON block {}
+    CATCH expr COLON block { $2, $4 }
 
 finally_block:
-    FINALLY COLON block {}
+    FINALLY COLON block { $3 }
 
 function:
   id_decl ID

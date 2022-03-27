@@ -35,7 +35,10 @@ type stmt =
   | For_in of typ * expr * expr * stmt
   | For of expr list * stmt
   | When of expr * stmt
-  | While of expr list * stmt
+  | While of expr * stmt
+  | Case of expr * stmt
+  | Default of stmt
+  | Try of stmt * stmt * ((stmt) option)
 
 
 

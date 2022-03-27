@@ -78,6 +78,14 @@ let string_of_op = function
   | In    -> "in"
   | NotIn -> "not in"
 
+let string_of_typ = function
+  Int -> "int"
+| Bool -> "bool"
+| Char -> "char"
+| String -> "string"
+| Float -> "float"
+| Void -> "void"
+
 let rec string_of_expr = function
     IntLit(i) -> string_of_int i
   | FloatLit(f) -> string_of_float f
@@ -93,11 +101,3 @@ let rec string_of_expr = function
 
 let rec string_of_stmt = function
   Expr(expr) -> string_of_expr expr ^ "\n"
-
-let string_of_typ = function
-  Int -> "int"
-| Bool -> "bool"
-| Char -> "char"
-| String -> "string"
-| Float -> "float"
-| Void -> "void"

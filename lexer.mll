@@ -12,8 +12,7 @@
      [ "and", AND;             "or", OR;                   "not", NOT;
        "const", CONST;         "final", FINAL;             "is", IS;
        "is not", ISNOT;        "in", IN;                   "not in", NOTIN; 
-       "when", WHEN;           "then", THEN;               "switch", SWITCH;
-       "case", CASE;           "default", DEFAULT;         "do", DO;
+       "when", WHEN;           "default", DEFAULT;         "do", DO;
        "while", WHILE;         "if", IF;                   "else", ELSE; 
        "break", BREAK;         "continue", CONTINUE;       "for", FOR;
        "class", CLASS;         "constructor", CONSTRUCTOR; "new", NEW;

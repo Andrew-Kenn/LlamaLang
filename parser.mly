@@ -79,7 +79,6 @@ simple_statements:
 
 simple_statement:
     return_statement { $1 }
-  | then_statement { $1 }
   | import_statement { $1 }
   | expression_statement { $1 }
   | throw_statement { $1 }
@@ -131,8 +130,6 @@ try_statement:
     TRY COLON block finally_block {}
   | TRY COLON block catch_block+ finally_block  {}
 
-then_statement:
-    THEN simple_statement {}
 
 when_body:
     case_block case_blocks default_block { $1::$2::[$3] }

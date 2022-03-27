@@ -28,7 +28,6 @@ type stmt =
   | Block of stmt list
   | Simple_stmts of stmt
   | Return of expr
-  | Then of expr
   | Import of string
   | Expr of expr
   | Throw of expr

@@ -85,14 +85,13 @@ simple_statement:
   | throw_statement {$1}
 
 compound_statement:
-    function {}
-  | class {}
-  | if_statement {}
-  | for_statement {}
-  | when_statement {}
-  | while_statement {}
-  | try_statement {}
-
+    function {$1}
+  | class {$1}
+  | if_statement {$1}
+  | for_statement {$1}
+  | when_statement {$1}
+  | while_statement {%1}
+  | try_statement {%1}
 
 import_statement:
     IMPORT ID {}

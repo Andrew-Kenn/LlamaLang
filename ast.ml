@@ -23,10 +23,24 @@ type expr =
   | Assign of string * expr
   | Seq of expr * expr
 
-type stmt = 
-    Expr of expr
+type compound_stmt = int
 
-type program = stmt list
+type simple_stmt =
+  | Return_stmt of expr
+  | Then_stmt of expr
+  | Import_stmt of expr
+  | Expr_stmt of expr
+  | Throw_stmt of expr 
+
+type simple_stmts = simple_stmt list
+
+type stmt = 
+  | Simple_stmts of simple_stmts
+  | Compound_stmt of compound_stmt
+
+type stmts = stmt list
+
+type program = stmts
 
 
 

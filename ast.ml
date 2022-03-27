@@ -23,7 +23,9 @@ type expr =
   | Assign of string * expr
   | Seq of expr * expr
 
-type compound_stmt = int
+
+type compound_stmt =
+  | If_stmt of if_stmt * else_if_stmt list * else_stmt
 
 type simple_stmt =
   | Return of expr
@@ -38,10 +40,15 @@ type stmt =
   | Simple_stmts of simple_stmts
   | Compound_stmt of compound_stmt
 
+
 type stmts = stmt list
 
-type program = stmts
+type if_stmt = {
+  cond: expr;
+  body: stmts;
+}
 
+type program = stmts
 
 
 

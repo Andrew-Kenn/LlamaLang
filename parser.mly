@@ -99,7 +99,7 @@ import_statement:
 
 if_statement:
       if_clause { $1 }
-    | if_clause else_if_clauses else_clause { $1, $2, $3}
+    | if_clause else_if_clauses else_clause { if($1, $2, $3)}
 
 if_clause: 
     IF conditional COLON block { $2, $4 }
